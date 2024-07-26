@@ -76,9 +76,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     const validPassword = "password";
 
     if (usernameInput === validUsername && passwordInput === validPassword) {
-        document.getElementById('username').innerText = usernameInput;
-        document.getElementById('welcome-message').style.display = 'block';
-        document.getElementById('login-form').style.display = 'none';
+         window.location.href = 'index.html'
     } else {
         alert("Invalid username or password.");
     }
