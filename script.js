@@ -64,3 +64,24 @@ function deleteTask(taskItem) {
     CalculateTaskPercentage();
 }
 
+// this is for the login page :()
+document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault(); 
+
+    const usernameInput = document.getElementById('username-input').value.trim();
+    const passwordInput = document.getElementById('password-input').value.trim();
+
+    // this is where the single user and passcode are stored
+    const validUsername = "user";
+    const validPassword = "password";
+
+    if (usernameInput === validUsername && passwordInput === validPassword) {
+        document.getElementById('username').innerText = usernameInput;
+        document.getElementById('welcome-message').style.display = 'block';
+        document.getElementById('login-form').style.display = 'none';
+    } else {
+        alert("Invalid username or password.");
+    }
+});
+
+

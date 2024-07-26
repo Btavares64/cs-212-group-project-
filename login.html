@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username-input" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password-input" required>
+            <button type="submit">Login</button>
+        </form>
+        <div id="welcome-message" style="display:none;">
+            <h3>Welcome, <span id="username"></span>!</h3>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
