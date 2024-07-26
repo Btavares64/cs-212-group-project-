@@ -1,0 +1,142 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+
+
+header {
+    background-color: #554926;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    height: 75px;
+}
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: cyan;
+    padding: 10px;
+    font-size: 40px;
+}
+
+nav .nav-left,
+nav .nav-right {
+    display: flex;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav li {
+    margin: 0 10px;
+}
+
+nav a {
+    color: black;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 50px;
+}
+
+nav a:hover {
+    background-color: white;
+    color: black;
+}
+
+
+.main {
+    padding: 20px;
+}
+
+
+.header-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 35px;
+}
+
+.tasks-box {
+    background-color: white;
+    border: 2px solid #554926;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+}
+
+.tasks-box h2 {
+    margin-top: 0;
+
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+}
+
+.task-list li {
+    margin: 10px 0;
+}
+
+.task-list input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.bottom-image {
+    position: fixed;
+    bottom: 12em;
+    right: 2em;
+    width: 250px;
+    height: 200px;
+}
+
+.welcome {
+    background-color: white;
+    border: 2px solid #554926;
+    border-radius: 2px;
+    padding: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+}
+
+.task-progress { 
+    background-color: white;
+    border: 2px solid #554926;
+    border-radius: 2px;
+    padding: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Example CSS for the to-do list */
+
+
+
+.task-list input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.task-list button {
+    margin-left: 20px;
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.task-list button:hover {
+    background-color: white;
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <header>
+        <h1>My To-Do List</h1>
+    </header>
+    <img src="./check.png" alt="Description of the image" class="bottom-image">
+    <nav>
+        <div class="nav-left">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#edit">Edit</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <ul>
+                <li><a href="#settings">Settings</a></li>
+                <li><a href="#profile">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <section class="main">
+        <div class="header-info">
+            <div class="welcome">
+                <p>Welcome, <span id="username">User</span>!</p>
+            </div>
+            <div class="task-progress">
+                <p>You've completed <span id="task-percentage">0</span>% of tasks today.</p>
+            </div>
+        </div>
+
+        
+
+        <div class="tasks-box">
+            <h2>Today's Tasks</h2>
+            <input type="text" id="new-task" placeholder="Add a new task">
+            <button onclick="NewTask()">Add Task</button>
+            <ul class="task-list"   id="task-list">
+                
+            </ul>
+        </div>
+        
+        
+        <button onclick="promptUser()">Enter Your Name</button>
+    </section>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
