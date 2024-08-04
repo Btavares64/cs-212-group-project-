@@ -11,7 +11,8 @@
     <header>
         <h1>My To-Do List</h1>
     </header>
-    <img src="./check.png" alt="Description of the image" class="bottom-image">
+    <!--Imma comment this out for now-->
+    <!--<img src="./check.png" alt="Description of the image" class="bottom-image">-->
     <nav>
         <div class="nav-left">
             <ul>
@@ -33,23 +34,25 @@
                 <p>Welcome, <span id="username">User</span>!</p>
             </div>
             <div class="task-progress">
-                <p>You've completed <span id="task-percentage">0</span>% of tasks today.</p>
+                <p>You've completed <div id="task-percentage">0% of tasks today. </div></p>
             </div>
         </div>
+    <div class="tasks-box">
+        <h2>Today's Tasks</h2>
+        <input type="text" id="new-task" placeholder="Add a new task">
+        <button onclick="newTask()">Add Task</button>
+        <ul class="task-list" id="task-list"></ul>
+    </div>
+
+    <div class="sort-options">
+        <label for="sort-criteria">Sort By:</label>
+        <select id="sort-criteria" onchange="sortTasks()">
+            <option value="dueDate">Due Date</option>
+            <option value="priority">Priority</option>
+        </select>
+    </div>
 
         
-
-        <div class="tasks-box">
-            <h2>Today's Tasks</h2>
-            <input type="text" id="new-task" placeholder="Add a new task">
-            <button onclick="NewTask()">Add Task</button>
-            <ul class="task-list"   id="task-list">
-                
-            </ul>
-        </div>
-        
-        
-        <button onclick="promptUser()">Enter Your Name</button>
     </section>
     
 </body>

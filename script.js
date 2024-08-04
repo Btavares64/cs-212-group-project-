@@ -1,85 +1,95 @@
-//This prompts the user to enter their name
-function promptUser() {
-    const username = prompt("Please enter your name.");
-    if (username) {
-        document.getElementById('username').innerText = username;
-    }
-    
-}
-//function for calculating the percentage
+let tasks = [];
+
+// Function for calculating the percentage
 function CalculateTaskPercentage() {
-    const tasks = document.querySelectorAll('#task-list li');
+    const tasksListItems = document.querySelectorAll('#task-list li');
     const completedTasks = document.querySelectorAll('#task-list li input[type="checkbox"]:checked');
 
-    const totalTasks = tasks.length;
+    const totalTasks = tasksListItems.length;
     const completedCount = completedTasks.length;
 
     const percentage = totalTasks === 0 ? 0 : Math.round((completedCount / totalTasks) * 100);
     document.getElementById('task-percentage').textContent = percentage;
 }
 
-
-
-//this function will be used to create new tasks
-function NewTask(){
-    const taskList = document.getElementById('task-list');
+// Function to create new tasks
+function newTask() {
     const taskInput = document.getElementById('new-task');
     const taskText = taskInput.value.trim();
 
-if (taskText !== '') {
-    const listItem = document.createElement('li');
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.onchange = CalculateTaskPercentage;
+    if (taskText !== '') {
+        const dueDate = prompt("Enter due date (MM/DD/YYYY):");
+        const priority = prompt("Enter priority (1-5):");
 
-    const label = document.createElement('label');
-    label.textContent = taskText;
+        // Validate the priority input
+        if (isNaN(priority) || priority < 1 || priority > 5) {
+            alert('Priority must be a number between 1 and 5.');
+            return;
+        }
 
-   
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete';
-    deleteButton.onclick = function() {
-        deleteTask(listItem);
-    };
+        // Validate the due date format (simple check)
+        if (!Date.parse(dueDate)) {
+            alert('Please enter a valid date in MM/DD/YYYY format.');
+            return;
+        }
 
-    listItem.appendChild(checkbox);
-    listItem.appendChild(label);
-    listItem.appendChild(deleteButton);
+        const newTask = {
+            text: taskText,
+            dueDate: dueDate,
+            priority: parseInt(priority, 10),
+            completed: false
+        };
 
-    taskList.appendChild(listItem);
-    taskInput.value = '';
-
-    CalculateTaskPercentage();
- }
- else {
-    alert('Please enter task')
- 
-}
+        tasks.push(newTask);
+        taskInput.value = '';
+        renderTasks();
+    }
 }
 
-//Delete a task
+// Function to render tasks
+function renderTasks() {
+    const taskList = document.getElementById('task-list');
+    taskList.innerHTML = '';
+
+    tasks.forEach(task => {
+        const taskItem = document.createElement('li');
+        taskItem.textContent = `${task.text} - Due: ${task.dueDate} - Priority: ${task.priority}`;
+        taskList.appendChild(taskItem);
+    });
+
+    updateTaskPercentage();
+}
+
+// Function to update task percentage
+function updateTaskPercentage() {
+    const completedTasks = tasks.filter(task => task.completed).length;
+    const percentage = (completedTasks / tasks.length) * 100 || 0;
+    document.getElementById('task-percentage').textContent = Math.round(percentage);
+}
+
+// Function to sort tasks based on criteria
+function sortTasks() {
+    const sortCriteria = document.getElementById('sort-criteria').value;
+
+    tasks.sort((a, b) => {
+        if (sortCriteria === 'dueDate') {
+            return new Date(a.dueDate) - new Date(b.dueDate);
+        } else if (sortCriteria === 'priority') {
+            // Reverse the comparison for priority to sort highest to lowest
+            return b.priority - a.priority;
+        }
+        return 0;
+    });
+
+    renderTasks();
+}
+
+// Function to delete a task
 function deleteTask(taskItem) {
     const taskList = document.getElementById('task-list');
     taskList.removeChild(taskItem);
     CalculateTaskPercentage();
 }
 
-// this is for the login page :()
-document.getElementById('login-form').addEventListener('submit', function(event) {
-    event.preventDefault(); 
-
-    const usernameInput = document.getElementById('username-input').value.trim();
-    const passwordInput = document.getElementById('password-input').value.trim();
-
-    // this is where the single user and passcode are stored
-    const validUsername = "user";
-    const validPassword = "password";
-
-    if (usernameInput === validUsername && passwordInput === validPassword) {
-         window.location.href = 'index.html'
-    } else {
-        alert("Invalid username or password.");
-    }
-});
 
 
