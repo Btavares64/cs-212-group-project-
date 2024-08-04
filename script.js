@@ -1,33 +1,59 @@
-let tasks = [];
+document.addEventListener('DOMContentLoaded', () => {
+    fetchTasks();
+});
 
-// Function for calculating the percentage
-function CalculateTaskPercentage() {
-    const tasksListItems = document.querySelectorAll('#task-list li');
-    const completedTasks = document.querySelectorAll('#task-list li input[type="checkbox"]:checked');
+let tasks = [];  // This will locally store your tasks
 
-    const totalTasks = tasksListItems.length;
-    const completedCount = completedTasks.length;
-
-    const percentage = totalTasks === 0 ? 0 : Math.round((completedCount / totalTasks) * 100);
-    document.getElementById('task-percentage').textContent = percentage;
+// Initially load any saved tasks from localStorage and render them
+function fetchTasks() {
+    const storedTasks = localStorage.getItem('tasks');
+    if (storedTasks) {
+        tasks = JSON.parse(storedTasks);
+        renderTasks();
+    }
 }
 
-// Function to create new tasks
-function newTask() {
+// Render tasks from the tasks array
+function renderTasks() {
+    const taskList = document.getElementById('task-list');
+    taskList.innerHTML = '';  // Clear existing tasks
+    tasks.forEach((task, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${task.text} - Due: ${task.dueDate} - Priority: ${task.priority}`;
+        
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = () => deleteTask(index);
+        listItem.appendChild(deleteButton);
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = task.completed;
+        checkbox.onchange = () => {
+            task.completed = checkbox.checked;
+            saveTasks();
+            updateTaskPercentage();
+        };
+        listItem.prepend(checkbox);
+
+        taskList.appendChild(listItem);
+    });
+    updateTaskPercentage();
+}
+
+// Create a new task from user input
+function NewTask() {
     const taskInput = document.getElementById('new-task');
     const taskText = taskInput.value.trim();
-
     if (taskText !== '') {
         const dueDate = prompt("Enter due date (MM/DD/YYYY):");
         const priority = prompt("Enter priority (1-5):");
-
-        // Validate the priority input
+        
         if (isNaN(priority) || priority < 1 || priority > 5) {
             alert('Priority must be a number between 1 and 5.');
             return;
         }
 
-        // Validate the due date format (simple check)
         if (!Date.parse(dueDate)) {
             alert('Please enter a valid date in MM/DD/YYYY format.');
             return;
@@ -41,55 +67,68 @@ function newTask() {
         };
 
         tasks.push(newTask);
-        taskInput.value = '';
-        renderTasks();
+        saveTasks();  // Save tasks to localStorage
+        renderTasks();  // Re-render tasks
+        taskInput.value = '';  // Clear input
     }
 }
 
-// Function to render tasks
-function renderTasks() {
-    const taskList = document.getElementById('task-list');
-    taskList.innerHTML = '';
-
-    tasks.forEach(task => {
-        const taskItem = document.createElement('li');
-        taskItem.textContent = `${task.text} - Due: ${task.dueDate} - Priority: ${task.priority}`;
-        taskList.appendChild(taskItem);
-    });
-
-    updateTaskPercentage();
+// Delete a task based on its index
+function deleteTask(index) {
+    tasks.splice(index, 1);
+    saveTasks();  // Update local storage
+    renderTasks();  // Re-render tasks
 }
 
-// Function to update task percentage
+// Save tasks to localStorage
+function saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+// Update and display the task completion percentage
 function updateTaskPercentage() {
     const completedTasks = tasks.filter(task => task.completed).length;
     const percentage = (completedTasks / tasks.length) * 100 || 0;
-    document.getElementById('task-percentage').textContent = Math.round(percentage);
+    document.getElementById('task-percentage').textContent = Math.round(percentage) + '%';
 }
 
-// Function to sort tasks based on criteria
-function sortTasks() {
-    const sortCriteria = document.getElementById('sort-criteria').value;
-
-    tasks.sort((a, b) => {
-        if (sortCriteria === 'dueDate') {
-            return new Date(a.dueDate) - new Date(b.dueDate);
-        } else if (sortCriteria === 'priority') {
-            // Reverse the comparison for priority to sort highest to lowest
-            return b.priority - a.priority;
-        }
-        return 0;
-    });
-
-    renderTasks();
+// Search and filter tasks
+function searchTasks() {
+    const searchText = document.getElementById('search-input').value.toLowerCase();
+    const filteredTasks = tasks.filter(task => 
+        task.text.toLowerCase().includes(searchText) ||
+        (task.description && task.description.toLowerCase().includes(searchText)) // Ensure description exists before checking
+    );
+    displayTasks(filteredTasks); // Ensure this function accepts a task list and renders it
 }
 
-// Function to delete a task
-function deleteTask(taskItem) {
+function displayTasks(tasksToDisplay = tasks) {
     const taskList = document.getElementById('task-list');
-    taskList.removeChild(taskItem);
-    CalculateTaskPercentage();
+    taskList.innerHTML = ''; // Clear existing tasks
+    tasksToDisplay.forEach((task, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${task.text} - Due: ${task.dueDate} - Priority: ${task.priority}`;
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = task.completed;
+        checkbox.onchange = () => {
+            task.completed = checkbox.checked;
+            saveTasks();
+            updateTaskPercentage();
+        };
+        listItem.prepend(checkbox);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = () => deleteTask(index);
+        listItem.appendChild(deleteButton);
+
+        taskList.appendChild(listItem);
+    });
+    updateTaskPercentage();
 }
+
 
 
 
